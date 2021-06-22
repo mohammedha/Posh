@@ -3,14 +3,14 @@
 	This Script Will Reset The Password Last Reset Date "Pwdlastset"
 
 .Description
+    This script will extend the expired password for AD user account
     This Script Will 
     - Set "Pwdlastset" To 0 | This Will Expires The Password Immediately.
     - Set "Pwdlastset" To -1 | This Will Set The Password Last Set To Today.
     
 
 .Note
-    - Rdp To A Dc
-    - Run Script In Powershell Ise As Admin
+    - Requires AciveDirectory module
     - Follow The Prompt
 
     Author: Mohamed Hassan
@@ -30,7 +30,7 @@ Write-Host "-------------------------------------------------------------" -Back
 Write-Host
 
 
-$Dc = Read-host RPlease Type your FQDN for a domain Controller:FQDN for your domain controller"
+$Dc = Read-host RPlease Type your FQDN for a domain Controller:FQDN for your domain controllerFQDN for your domain controller"
 # Assign 0 To The Pwdlastset Attribute, This Expires The Password Immediately.
 $User = Read-Host "Please Enter The Username"
 Set-Aduser -Server $Dc -Identity "$User" -Replace @{Pwdlastset = 0 } -Verbose
