@@ -16,12 +16,15 @@ ForEach ($DomainController in $ALLDC) {
     }
 }
 
-# Metigation
+# Metigation #
+
+# Find vulnerable machines
 $vulnerable = $false
 if (Get-Service spooler | Where-Object { $_.status -eq 'Running' }) {
     $vulnerable = $true
 }
 
+# Find Shared printers
 $hasPrintersShared = $false
 if (Get-Printer | Where-Object -Property shared -EQ $true) {
     $hasPrintersShared = $true
@@ -29,6 +32,7 @@ if (Get-Printer | Where-Object -Property shared -EQ $true) {
 
 if ($vulnerable) {
     switch ($hasPrintersShared) {
+        # Lock driver if there is shared printers
         $true {
             $path = "C:\Windows\System32\spool\drivers"
             $acl = (Get-Item $Path).GetAccessControl('Access')
@@ -36,7 +40,7 @@ if ($vulnerable) {
             $acl.AddAccessRule($Ar)
             Set-Acl $path $acl
         }
-    
+        # Disable Spooler 
         $false {
             Stop-Service -name Spooler -force
             Set-Service -name Spooler -startuptype Disabled
