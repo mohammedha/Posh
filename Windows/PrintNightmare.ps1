@@ -4,30 +4,51 @@ $ALLDC = (Get-ADForest).Domains | ForEach-Object { Get-ADDomainController -Filte
 
 # Checking if PrintNightmare were attempts
 ForEach ($DomainController in $ALLDC) {
-    Write-Information -MessageData "Checking $DomainController" -InformationAction Continue
-    #Get-WinEvent -LogName 'Microsoft-Windows-PrintService/Admin' | Where-Object { $_.message -like "*The print spooler failed to load a plug-in module*" }
-    $Attempts = Get-WinEvent -LogName 'Microsoft-Windows-PrintService/Admin' | Select-String -InputObject { $_.message } -Pattern 'The print spooler failed to load a plug-in module'
-    if ($Attempts) {
-        Write-Warning -Message "Attempt(s) were made."
-        $Attempts
+    Write-Information -MessageData "Checking $DomainController..." -InformationAction Continue
+    if (Test-Connection -ComputerName $DomainController.hostname -Quiet -Count 1 -BufferSize 16) {
+        try {
+            $Attempts = Get-WinEvent -LogName 'Microsoft-Windows-PrintService/Admin' -ComputerName $DomainController | Select-String -InputObject { $_.message } -Pattern 'The print spooler failed to load a plug-in module'
+            if ($Attempts) {
+                Write-Warning -Message "Attempts were made."
+                $Attempts
+            }
+            else {
+                Write-Information -Message "No Attempts were made." -InformationAction Continue
+            }
+        }
+        catch {
+            Write-Warning -Message "Unable to get Eventlog from $DomainController."
+        }
     }
     else {
-        Write-Information -Message "No Attempt(s) made." -InformationAction Continue
+        Write-Information -MessageData "$DomainController is offline." -InformationAction Continue
     }
 }
 
-# Metigation #
+# Metigation to be run on indvidual DC#
 
 # Find vulnerable machines
-$vulnerable = $false
-if (Get-Service spooler | Where-Object { $_.status -eq 'Running' }) {
-    $vulnerable = $true
+try {
+    $Vulnerable = $false
+    if (Get-Service -name spooler -ComputerName $DomainController | Where-Object { $_.status -eq 'Running' }) {
+        $Vulnerable = $true
+    }
+}
+catch {
+    $error[0].exception.message
+    Write-Information -MessageData "The spooler service is not reachable on $DomainController" -InformationAction Continue
 }
 
 # Find Shared printers
-$hasPrintersShared = $false
-if (Get-Printer | Where-Object -Property shared -EQ $true) {
-    $hasPrintersShared = $true
+try {
+    $hasPrintersShared = $false
+    if (Get-Printer -ComputerName $DomainController | Where-Object -Property shared -EQ $true) {
+        $hasPrintersShared = $true
+    }
+}
+catch {
+    $error[0].exception.message
+    Write-Information -MessageData "The spooler service is not reachable.  Ensure the spooler service is running." -InformationAction Continue
 }
 
 if ($vulnerable) {
@@ -47,3 +68,10 @@ if ($vulnerable) {
         }
     }
 }
+
+
+
+
+
+
+
