@@ -48,7 +48,7 @@ try {
 }
 catch {
     $error[0].exception.message
-    Write-Information -MessageData "The spooler service is not reachable.  Ensure the spooler service is running." -InformationAction Continue
+    Write-Information -MessageData "The spooler service is not reachable." -InformationAction Continue
 }
 
 if ($vulnerable) {
