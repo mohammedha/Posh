@@ -1,0 +1,3 @@
+Get-ChildItem -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall', 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall' |
+    Get-ItemProperty -Name DisplayName, Publisher, DisplayVersion, InstallDate -ErrorAction Ignore |
+    Format-Table
