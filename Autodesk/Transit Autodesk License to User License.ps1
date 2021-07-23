@@ -17,6 +17,7 @@
        I take no responsibility for any issues caused by this script.
     .LINK
        https://github.com/mohammedha/Posh
+       https://knowledge.autodesk.com/search-result/caas/downloads/content/licensing-support-tool.html
     #>
 
 # Check if Elevated
@@ -55,6 +56,7 @@ if (!(Test-Path -path $ResetFile)) {
     Move-Item -LiteralPath "C:\Autodesk\adsklicensingsupporttool-2.0.0.364-win\AdskLicensingSupportTool" -Destination $ADSKFolder -Force
     Set-Location -Path $SupportToolFolder
     # Converting ADSK Products to Named User licenses
+    # https://knowledge.autodesk.com/search-result/caas/downloads/content/licensing-support-tool.html
     cmd /k "AdskLicensingSupportTool.exe -r All:USER >>LicenseReset.txt"
     exit
 }
