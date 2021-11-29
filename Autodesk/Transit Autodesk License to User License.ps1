@@ -57,7 +57,7 @@ if (!(Test-Path -path $ResetFile)) {
     Set-Location -Path $SupportToolFolder
     # Converting ADSK Products to Named User licenses
     # https://knowledge.autodesk.com/search-result/caas/downloads/content/licensing-support-tool.html
-    cmd /k "AdskLicensingSupportTool.exe -r All:USER >>LicenseReset.txt"
+    cmd /c "AdskLicensingSupportTool.exe -r All:USER >>LicenseReset.txt"
     exit
 }
 else {
