@@ -49,13 +49,13 @@ function prompt {
 
     #Decorate the CMD Prompt
     Write-Host ""
-    Write-host ($(if ($IsAdmin) { 'Elevated ' } else { '' })) -BackgroundColor DarkRed -ForegroundColor White -NoNewline
-    Write-Host " USER:$($CmdPromptUser.Name.split("\")[1]) " -BackgroundColor DarkBlue -ForegroundColor White -NoNewline
+    Write-host ($(if ($IsAdmin) { '# Elevated ' } else { '' })) -BackgroundColor DarkRed -ForegroundColor White -NoNewline
+    Write-Host " USER:$($CmdPromptUser.Name.split("\")[1])@$env:COMPUTERNAME " -BackgroundColor Darkblue -ForegroundColor Black -NoNewline
     If ($CmdPromptCurrentFolder -like "*:*")
     { Write-Host " $CmdPromptCurrentFolder "  -ForegroundColor White -BackgroundColor DarkGray -NoNewline }
     else { Write-Host ".\$CmdPromptCurrentFolder\ "  -ForegroundColor White -BackgroundColor DarkGray -NoNewline }
 
-    Write-Host " $date " -ForegroundColor White
+    Write-Host " [$date]" -ForegroundColor Yellow
     Write-Host "[$elapsedTime] " -NoNewline -ForegroundColor Green
-    return "> "
+    return "\> "
 } #end prompt function
