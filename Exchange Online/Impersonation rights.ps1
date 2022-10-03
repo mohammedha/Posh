@@ -16,16 +16,13 @@ Import-PSSession $Session
 
 ## Create a management scope
 ## which will be used in the next step to restrict the impersonation right. The below command will limit the scope to resources (room and equipment mailboxes):
-New-eoManagementScope -Name "ResourceMailboxes" -RecipientRestrictionFilter { RecipientTypeDetails -eq "RoomMailbox" -or RecipientTypeDetails -eq "EquipmentMailbox" -or PrimarySmtpAddress -eq "Evoko.Service@zaha-hadid.com" }
+New-ManagementScope -Name "ResourceMailboxes" -RecipientRestrictionFilter { RecipientTypeDetails -eq "RoomMailbox" -or RecipientTypeDetails -eq "EquipmentMailbox" -or PrimarySmtpAddress -eq "service-account@domain.com" }
 
 ## Grant the service account Impersonation 
-New-eoManagementRoleAssignment –Name "ResourceImpersonation" –Role ApplicationImpersonation -User Evoko.Service@zaha-hadid.com –CustomRecipientWriteScope "ResourceMailboxes"
+New-ManagementRoleAssignment –Name "ResourceImpersonation" –Role ApplicationImpersonation -User service-account@domain.com –CustomRecipientWriteScope "ResourceMailboxes"
 
 ## Confirm that impersonation has been granted
-Get-eoManagementRoleAssignment -Role “ApplicationImpersonation” -GetEffectiveUsers
+Get-ManagementRoleAssignment -Role “ApplicationImpersonation” -GetEffectiveUsers
 
 ## Disconnect from the Power-shell session
 Remove-PSSession $Session
-
-
-LW43clq9ibgUnK9nwvHy
