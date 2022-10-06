@@ -1,0 +1,2 @@
+## get list of required windows feature updates
+Get-CimInstance -Namespace root\ccm\softwareupdates\updatesstore -ClassName CCM_UpdateStatus -ComputerName PCNAME | select status, title | where-object { $_.title -like '*feature*' } | Sort-Object status | ft -auto -Wrap
