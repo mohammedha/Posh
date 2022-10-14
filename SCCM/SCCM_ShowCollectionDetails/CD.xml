@@ -1,0 +1,16 @@
+<ActionDescription Class="Group" DisplayName="Custom Actions" MnemonicDisplayName="Custom Actions" Description="Custom Actions" SqmDataPoint="53">
+    <ShowOn>
+        <string>ContextMenu</string>
+    </ShowOn>
+    <ActionGroups>
+        <ActionDescription Class="Executable" DisplayName="Show Collection Details" MnemonicDisplayName="Show Collection Details" Description="Show Collection Details">
+            <ShowOn>
+                <string>ContextMenu</string>
+            </ShowOn>
+            <Executable>
+                <FilePath>PowerShell.exe</FilePath>
+                <Parameters>-ExecutionPolicy ByPass -WindowStyle Hidden "C:\Master\ShowCollectionDetails_v1_1p.ps1" -ResourceId "##SUB:ResourceId##" -SiteCode "##SUB:SiteCode##" -SiteServer "##SUB:__Server##"</Parameters>
+            </Executable>
+        </ActionDescription>
+    </ActionGroups>
+</ActionDescription>
