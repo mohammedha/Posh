@@ -1,0 +1,10 @@
+<ActionDescription Class="Executable" DisplayName="Redistribute all failed Pkgs" MnemonicDisplayName="Redistribute all failed Pkgs" Description = "Redistribute all failed Pkgs" RibbonDisplayType="TextAndSmallImage">
+	<ShowOn>
+		<string>ContextMenu</string>
+		<string>DefaultHomeTab</string>
+	</ShowOn>
+	<Executable>
+		<FilePath>PowerShell.exe</FilePath>
+		<Parameters>-Executionpolicy bypass -nologo -WindowStyle normal -command "&amp; 'C:\itlab\redistfailedpkgstodp.ps1' '##SUB:__Server##' '##SUB:__Namespace##' '##SUB:NAME##'" </Parameters>
+	</Executable>
+</ActionDescription>

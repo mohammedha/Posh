@@ -1,0 +1,10 @@
+<ActionDescription Class="Executable" DisplayName="Redistribute to all failed DPs" MnemonicDisplayName="Redistribute to all failed DPs" Description = "Redistribute to all failed DPs" RibbonDisplayType="TextAndSmallImage">
+	<ShowOn>
+		<string>ContextMenu</string>
+		<string>DefaultHomeTab</string>
+	</ShowOn>
+	<Executable>
+		<FilePath>PowerShell.exe</FilePath>
+		<Parameters>-Executionpolicy bypass -nologo -WindowStyle normal -command "&amp; 'C:\itlab\RedistFailed.ps1' '##SUB:__Server##' '##SUB:__Namespace##' '##SUB:PackageID##'" </Parameters>
+	</Executable>
+</ActionDescription>

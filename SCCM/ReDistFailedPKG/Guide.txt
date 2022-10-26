@@ -1,0 +1,18 @@
+https://www.applepie.se/redistribute-failed-packages-in-configmgr
+
+# Redistribute Failed Packages in ConfigMgr
+
+Posted by nickekallen on February 17, 2014 in Script
+Since the topic of redistributing failed packages is quite often surfacing in larger environments and there are quite a few PowerShell scripts out there to achieve this.
+
+David O´Brien has written a PowerShell script that redistributes all packages that has any state (but successfull) to all DPs. In a larger environment this would be very risky (consider the amount of bandwidth you could potentially consume).
+
+David went about the task by looking up the current state of the SMS_PackageStatusDistPointsSummarizer which has 7 states of a package , and then looping through all packages for all DPs and initiate the operation RefreshNow for each package and DP.
+
+Within SCCM 2012 R2 there seems to be 9 possible states of a package, where a state 7 and 8 seems to be undocumented. State 7 would indicate that the source-files were not reachable for the SCCM 2012 server, and State 8 would indicate that a package validation failed (for any reason).
+
+Quite often the need is more targeted and in particular we are required to only verify a single package or distribution point. As we would go through the console to check the state of a package and look under Content Status to see – it would be easiest to simply trigger a redistribute action for all DPs that are reported as failed. Previously Greg Ramsey released the great tool to start the action Validate All DPs, which can be initiated from any package under Content Status. Great tool! Lets take that one step further and create two additional menus within Configuration Manager console!
+
+You can download the scripts from here, but you need to copy the XML-files into the folder of the Admin-Console yourself to make them visible.
+
+c:\Program Files (x86)\Microsoft Configuration Manager\AdminConsole\XmlStorage\Extensions\Actions
