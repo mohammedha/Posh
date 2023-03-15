@@ -1,3 +1,7 @@
+<#
+This Script will retrive the uninstall code for Carbonblack Cloud
+
+#>
 #Requires -Version 6.0
 
 
@@ -15,4 +19,6 @@ $Global:Uri = "$Hostname/appservices/v6/orgs/$OrgKey/devices/_search"
 $Response = Invoke-WebRequest -Uri $Uri -Headers $Headers -Method Post -Body ($Body | ConvertTo-Json) -ContentType "application/json"
 $Data = $Response.Content | Convertfrom-Json
 
-$data.results.uninstall_code
+Clear-Host
+Write-Host "Uninstall Code for $Computer is: " -NoNewline
+write-host $data.results.uninstall_code -ForegroundColor Yellow
