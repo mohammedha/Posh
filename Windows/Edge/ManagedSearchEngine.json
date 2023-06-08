@@ -1,0 +1,22 @@
+[
+    {
+        "allow_search_engine_discovery": true
+    },
+    {
+        "is_default": true,
+        "suggest_url": "{google:baseURL}complete/search?output=chrome&q={searchTerms}",
+        "search_url": "{google:baseURL}search?q={searchTerms}&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:searchClient}{google:sourceId}ie={inputEncoding}",
+        "image_search_url": "{google:baseSearchByImageURL}upload",
+        "image_search_post_params": "encoded_image={google:imageThumbnail},image_url={google:imageURL},sbisrc={google:imageSearchSource},original_width={google:imageOriginalWidth},original_height={google:imageOriginalHeight}",
+        "name": "Google",
+        "keyword": "Google.com"
+    },
+    {
+        "suggest_url": "{bing:baseURL}qbox?query={searchTerms}",
+        "search_url": "{bing:baseURL}search?q={searchTerms}",
+        "image_search_url": "{bing:baseURL}images/detail/search?iss=sbiupload&FORM=ANCMS1#enterInsights",
+        "image_search_post_params": "imageBin={google:imageThumbnailBase64}",
+        "name": "Bing",
+        "keyword": "Bing.com"
+    }
+]
