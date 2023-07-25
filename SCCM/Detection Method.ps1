@@ -48,5 +48,4 @@ if (($String1Exists -match $String1)) {
     Write-Host "Installed"
 }
 else {
-    Write-Host "Not Installed"
 }
