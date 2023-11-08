@@ -87,8 +87,10 @@ Function Receive-Output {
     }
 }
 Start-Log -FilePath $LogFolder -FileName $LogFileName | Out-Null
-Write-Output "[$((Get-Date).TimeofDay)] Script start: $Global:DateNTime." | Receive-Output -Color Gray -LogLevel 1
-Write-Output "[$((Get-Date).TimeofDay)] Creating log Folder/File." | Receive-Output -Color Gray -LogLevel 1 
+Write-Output "[$((Get-Date).TimeofDay)] Hostname $($env:COMPUTERNAME)." | Receive-Output -Color Gray -LogLevel 1 
+Write-Output "[$((Get-Date).TimeofDay)] User: $($env:USERNAME)." | Receive-Output -Color Gray -LogLevel 1 
+Write-Output "[$((Get-Date).TimeofDay)] Create log Folder/File: $Global:Log." | Receive-Output -Color Gray -LogLevel 1 
+Write-Output "[$((Get-Date).TimeofDay)] Start log: $Global:DateNTime." | Receive-Output -Color Gray -LogLevel 1
 
 #-----------------------------------------------------------[Execution]------------------------------------------------------------
 #(Get-WmiObject -Class Win32_Product -Filter "Name='Microsoft Silverlight'" -ComputerName . ).Uninstall()
@@ -96,12 +98,16 @@ Write-Output "[$((Get-Date).TimeofDay)] Creating log Folder/File." | Receive-Out
 try {
     Write-Output "[$((Get-Date).TimeofDay)] Finding Microsoft Silverlight installation..." | Receive-Output -Color Gray -LogLevel 1
     $Global:MSL = Get-CimInstance -Class Win32_Product -Filter "Name='Microsoft Silverlight'" 
-    $Global:MSL | ForEach-Object -Process { Invoke-CimMethod -InputObject $_ -MethodName Uninstall }
-    if ($Global:MSL.ReturnValue -eq 0) {
-        Write-Output "[$((Get-Date).TimeofDay)] Name: $($Global:MSL.Name)." | Receive-Output -Color Gray -LogLevel 1
-        Write-Output "[$((Get-Date).TimeofDay)] IdentifyingNumber: $($Global:MSL.IdentifyingNumber)." | Receive-Output -Color Gray -LogLevel 1
-        Write-Output "[$((Get-Date).TimeofDay)] Version: $($Global:MSL.Version)." | Receive-Output -Color Gray -LogLevel 1
-        Write-Output "[$((Get-Date).TimeofDay)] Microsoft Silverlight Uninstalled." | Receive-Output -Color Gray -LogLevel 1
+    foreach ($Item in $Global:MSL) {
+        Write-Output "[$((Get-Date).TimeofDay)] Uninstalling $item." | Receive-Output -Color Gray -LogLevel 1
+        Write-Output "[$((Get-Date).TimeofDay)] Name: $($item.Name)." | Receive-Output -Color Gray -LogLevel 1
+        Write-Output "[$((Get-Date).TimeofDay)] IdentifyingNumber: $($item.IdentifyingNumber)." | Receive-Output -Color Gray -LogLevel 1
+        Write-Output "[$((Get-Date).TimeofDay)] Version: $($item.Version)." | Receive-Output -Color Gray -LogLevel 1
+        $Uninstall = Invoke-CimMethod -InputObject $item -MethodName Uninstall
+        if ($($uninstall.ReturnValue) -eq 0) {
+            Write-Output "[$((Get-Date).TimeofDay)] $($item.Name) successfully uninstalled." | Receive-Output -Color Gray -LogLevel 1
+        }
+        Write-Output "---------------------------------------------------------------------------------------------------------------" | Receive-Output -Color Gray -LogLevel 1
     }
 }
 catch {
