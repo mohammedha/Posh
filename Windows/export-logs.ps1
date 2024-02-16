@@ -39,6 +39,10 @@ Foreach ($log in $logArray) {
 
 }
 
+# Compress the log files
+Compress-Archive -Path $destinationpath -DestinationPath ($destinationpath + $servername + "-" + $logdate + ".zip")
+remove-item $destinationpath -Recurse -Force -Exclude *.zip
+
 
 # End Code
 # Stop Timer
