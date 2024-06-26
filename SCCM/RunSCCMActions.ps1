@@ -96,15 +96,13 @@ elseif ($Selection -eq 9) {
     $ScheduleGUID = "{00000000-0000-0000-0000-000000000010}"
 }
     
-    
-    
-    
 $ClientAction = $ClientActions[$Selection - 1]
 $TriggerAction = Invoke-WmiMethod -Namespace root\ccm -Class SMS_Client -ComputerName $ComputerName -Name TriggerSchedule -ArgumentList $ScheduleGUID
 Write-Host "$($ComputerName) - $($ClientAction) - $($TriggerAction.ReturnValue)" -ForegroundColor Green
     
 Write-Host "Tailing SCCM Logfile $Log" -ForegroundColor Yellow
 try {
+    Start-Sleep -Seconds 5
     Get-Content -Path $log -Tail 5
 }
 catch {
