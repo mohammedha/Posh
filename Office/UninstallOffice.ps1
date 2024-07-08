@@ -39,7 +39,7 @@ $SupportTool = "SaRA_Enterprise.zip"
 
 # Script
 
-# Create Autodesk if doesn't exist
+# Create log folder if doesn't exist
 if (!(Test-Path $LogFolder)) {
     Write-Information -MessageData "Creating Log folder..." -Verbose -InformationAction Continue
     New-Item -ItemType Directory -Name saRACmd -Path "C:\temp\"
