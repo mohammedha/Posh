@@ -1,7 +1,4 @@
 
-$password = ((Get-Random -InputObject $Words -Count 1), (Get-Random -InputObject $Words -Count 1), (Get-Random -InputObject $Words -Count 1), (Get-Random -InputObject $Symbols -Count 1), (Get-Random -InputObject $numbers -Count 1) ) -join ''
-Write-Output -InputObject $password
-
 function New-Password {
     [CmdletBinding()]
     param (
@@ -30,3 +27,6 @@ function New-Password {
         
     }
 }
+
+
+New-Password 
