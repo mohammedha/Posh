@@ -8,7 +8,7 @@ function New-3WordsPassword {
     
     .DESCRIPTION
     The New-3WordsPassword function generates a password with a random combination of words, symbols, and numbers. The function accepts the following parameters:
-    -Words: The number of words to include in the password. Default is 3.
+    -Words: The number of words to include in the password. Default is 3. [300 words in total [5/6/7 letters words]]
     -Symbols: If present, a random symbol is added to the password. Default is $false.
     -Numbers: If present, a random number is added to the password. Default is $false.
     -All: If present, a random symbol and a random number is added to the password. Default is $false.
