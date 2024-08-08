@@ -63,7 +63,7 @@ function New-3WordsPassword {
         'Feature' , 'Despise' , 'Offense' , 'Regular' , 'Traffic' , 'Company' , 'Laborer' , 'Indulge' , 'Dictate' , 'Stomach' , 'Capital' , 'Perfume' , 'Abandon' , 'Citizen' , 'Explain' , 'Provide' , 'Neglect' , 'Bathtub' , 'Radical' , 'Costume' , 'Bedroom' , 'Endorse' , 'Failure' , 'Steward' , 'Extract' , 'Referee' , 'Section' , 'Warning' , 'Suspect' , 'Undress' , 'Suggest' , 'Courage' , 'Plastic' , 'Assault' , 'Tension' , 'Whisper' ,
         'Inspire' , 'Example' , 'Breathe' , 'Receipt' , 'Session' , 'Hostage' , 'Eternal' , 'Harvest' , 'Haircut' , 'Variant' , 'Article' , 'Harmful' , 'Pursuit' , 'Percent' , 'Curtain' , 'Gesture' , 'Abolish' , 'Distant' , 'Chapter' , 'Diamond' , 'Economy' , 'Penalty' , 'Perfect' , 'Witness' , 'Confine' , 'Wriggle' , 'Average' , 'Vehicle' , 'Passage' , 'Missile' , 'Partner' , 'Passive' , 'Laundry' , 'Habitat' , 'Problem' , 'Protest' ,
         'Biology' , 'Distort' , 'Variety' , 'Cabinet' , 'Texture' , 'Comfort' , 'Parking' , 'Genuine' , 'Fortune' , 'Applaud' , 'Project' , 'Certain' , 'Terrace' , 'Rubbish' , 'Voucher' , 'Trouser' , 'Posture' , 'Factory' , 'Fitness' , 'Arrange' , 'Grounds' , 'Royalty' , 'Uniform' , 'Physics' , 'Program' , 'Glasses' , 'Custody'
-        $SymbolsArray = '!' , '@' , '#' , '$' , '%' , '^' , '&' , '*' , '(' , ')' , '-' , '_' , '+' , '=' , '{' , '}' , '[' , ']' , '|' , ';' , ':' , '<' , '>' , '?' , '/' , '~' , '#'
+        $SymbolsArray = [char[]](33..47) + [char[]](58..64) + [char[]](91..96) + [char[]](123..126)
         $NumbersArray = 1..100
     }
     
@@ -88,8 +88,8 @@ function New-3WordsPassword {
     }
     
     end {
-        Write-Host $Password -ForegroundColor Green
-        ((($password -split ' ')[0] -creplace '(?<=\w)([A-Z])', '.$1') -split '\d')
+        #Write-Host $Password -ForegroundColor Green
+        #((($password -split ' ')[0] -creplace '(?<=\w)([A-Z])', '.$1') -split '\d')
     }
 }
 
