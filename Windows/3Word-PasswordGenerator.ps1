@@ -63,13 +63,13 @@ function New-3WordsPassword {
         'Feature' , 'Despise' , 'Offense' , 'Regular' , 'Traffic' , 'Company' , 'Laborer' , 'Indulge' , 'Dictate' , 'Stomach' , 'Capital' , 'Perfume' , 'Abandon' , 'Citizen' , 'Explain' , 'Provide' , 'Neglect' , 'Bathtub' , 'Radical' , 'Costume' , 'Bedroom' , 'Endorse' , 'Failure' , 'Steward' , 'Extract' , 'Referee' , 'Section' , 'Warning' , 'Suspect' , 'Undress' , 'Suggest' , 'Courage' , 'Plastic' , 'Assault' , 'Tension' , 'Whisper' ,
         'Inspire' , 'Example' , 'Breathe' , 'Receipt' , 'Session' , 'Hostage' , 'Eternal' , 'Harvest' , 'Haircut' , 'Variant' , 'Article' , 'Harmful' , 'Pursuit' , 'Percent' , 'Curtain' , 'Gesture' , 'Abolish' , 'Distant' , 'Chapter' , 'Diamond' , 'Economy' , 'Penalty' , 'Perfect' , 'Witness' , 'Confine' , 'Wriggle' , 'Average' , 'Vehicle' , 'Passage' , 'Missile' , 'Partner' , 'Passive' , 'Laundry' , 'Habitat' , 'Problem' , 'Protest' ,
         'Biology' , 'Distort' , 'Variety' , 'Cabinet' , 'Texture' , 'Comfort' , 'Parking' , 'Genuine' , 'Fortune' , 'Applaud' , 'Project' , 'Certain' , 'Terrace' , 'Rubbish' , 'Voucher' , 'Trouser' , 'Posture' , 'Factory' , 'Fitness' , 'Arrange' , 'Grounds' , 'Royalty' , 'Uniform' , 'Physics' , 'Program' , 'Glasses' , 'Custody'
-        $SymbolsArray = ([char]33 .. [char]47) + ([char]58 .. [char]64) + [char]91 .. [char]96 + [char]123 .. [char]126
+        $SymbolsArray = '!' , '@' , '#' , '$' , '%' , '^' , '&' , '*' , '(' , ')' , '-' , '_' , '+' , '=' , '{' , '}' , '[' , ']' , '|' , ';' , ':' , '<' , '>' , '?' , '/' , '~' , '#'
         $NumbersArray = 1..100
     }
     
     process {
         if ($Symbols) {
-            $Password = (((Get-Random -InputObject $WordsArray -Count $Words) -join ''), ((Get-Random -InputObject $SymbolsArray -Count 2) -join '')) -join ''
+            $Password = (((Get-Random -InputObject $WordsArray -Count $Words) -join ''), ((Get-Random -InputObject $SymbolsArray -Count 1) -join '')) -join ''
             Write-Output -InputObject $Password
         }
         elseif ($Numbers) {
@@ -77,7 +77,7 @@ function New-3WordsPassword {
             Write-Output -InputObject $Password
         }
         elseif ($All) {
-            $Password = (((Get-Random -InputObject $WordsArray -Count $Words) -join ''), ((Get-Random -InputObject $SymbolsArray -Count 2) -join ''), (Get-Random -InputObject $NumbersArray -Count 1) ) -join ''
+            $Password = (((Get-Random -InputObject $WordsArray -Count $Words) -join ''), ((Get-Random -InputObject $SymbolsArray -Count 1) -join ''), (Get-Random -InputObject $NumbersArray -Count 1) ) -join ''
             Write-Output -InputObject $Password
         }
         else {
@@ -88,7 +88,8 @@ function New-3WordsPassword {
     }
     
     end {
-        
+        Write-Host $Password -ForegroundColor Green
+        ((($password -split ' ')[0] -creplace '(?<=\w)([A-Z])', '.$1') -split '\d')
     }
 }
 
