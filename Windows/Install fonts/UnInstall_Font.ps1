@@ -1,16 +1,3 @@
-<#	
-===========================================================================
-	 Created on:   	04/07/2020 13:06
-	 Created by:   	Ben Whitmore
-	 Organization: 	-
-	 Filename:     	Uninstall_Font.ps1
-===========================================================================
-    
-Version:
-1.0
-
-#>
-
 #Set Current Directory
 $ScriptPath = $MyInvocation.MyCommand.Path
 $CurrentDir = Split-Path $ScriptPath
