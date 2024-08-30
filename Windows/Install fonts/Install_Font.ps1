@@ -1,15 +1,3 @@
-<#	
-===========================================================================
-	 Created on:   	04/07/2020 13:06
-	 Created by:   	Ben Whitmore
-	 Organization: 	-
-	 Filename:     	Install_Font.ps1
-===========================================================================
-    
-Version:
-1.0
-
-#>
 
 #Set Current Directory
 $ScriptPath = $MyInvocation.MyCommand.Path
@@ -26,5 +14,6 @@ foreach ($Font in $(Get-ChildItem -Path $CurrentDir -Include *.ttf, *.otf, *.fon
     
     #Set the Registry Key to indicate the Font has been installed
     New-ItemProperty -Path $FontRegPath -Name $Font.Name -Value $Font.Name -PropertyType String -Value $Font.name | Out-Null
+    Write-Output "Copied: $($Font.Name)"
 }
 
