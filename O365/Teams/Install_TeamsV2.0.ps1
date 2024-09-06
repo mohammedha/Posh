@@ -249,6 +249,7 @@ function Test-Prerequisites {
     process {
         Write-Output "[$((Get-Date).TimeofDay)] [Info] Finding Prerequisite [$Prerequisite]..."
         $File = (Get-ChildItem -Path . | Where-Object { $_.name -match $Prerequisite }).FullName
+        $Version = (Get-Item $file).VersionInfo.fileversion
         if ($null -eq $File) {
             Write-Output "[$((Get-Date).TimeofDay)] [Error] Failed to find $Prerequisite, exiting..."
         }
