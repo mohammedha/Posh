@@ -1,4 +1,36 @@
-#Requires -Version 6.0
+<#
+.Synopsis
+    Retrieve alerts from Carbon Black Cloud based on a user-selected time range.
+
+.DESCRIPTION
+    This PowerShell script interacts with the Carbon Black Cloud (CBC) API to retrieve alerts based on a user-selected time range. It displays the alerts in a grid view for easy analysis.
+
+.EXAMPLE
+    .\Get-CBAlerts.ps1
+
+    This command will prompt the user to select a time range and retrieve the corresponding alerts from Carbon Black Cloud.
+
+.OUTPUTS
+    [PSCustomObject]
+    The script outputs a grid view of the retrieved alerts, including details such as ID, detection timestamp, severity, device name, reason, and more.
+
+.NOTES
+    Written by Mohamed Hassan
+    I take no responsibility for any issues caused by this script.
+
+.FUNCTIONALITY
+    - Set up global variables for Carbon Black Cloud credentials and API endpoint.
+    - Display a menu for the user to choose the time range for alerts.
+    - Validate user input to ensure a valid choice is made.
+    - Convert the user's choice into a time range format suitable for the API request.
+    - Construct the body of the API request with the selected time range and other criteria.
+    - Send the API request to retrieve alerts and process the response.
+    - Display the retrieved alerts in a grid view, sorted by severity.
+
+.LINK
+    https://developer.carbonblack.com/reference/carbon-black-cloud/platform/latest/alerts-api/
+#>
+
 
 Clear-Host
 $Global:OrgKey = "ORGGKEY"                                              # Add your org key
