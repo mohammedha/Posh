@@ -1,8 +1,37 @@
 <#
-This Script will retrive the uninstall code for Carbonblack Cloud
+.Synopsis
+    Retrieve the uninstall code for a specified computer from Carbon Black Cloud.
 
+.DESCRIPTION
+    This PowerShell script interacts with the Carbon Black Cloud (CBC) API to retrieve the uninstall code for a specified computer. It prompts the user to enter the computer name and confirms the action before making the API request.
+
+.EXAMPLE
+    .\Get-CBCUninstallCode.ps1
+
+    This command will prompt the user to select an action and enter the computer name to retrieve the uninstall code from Carbon Black Cloud.
+
+.OUTPUTS
+    [String]
+    The script outputs the uninstall code for the specified computer.
+
+.NOTES
+    Written by [YourName]
+    I take no responsibility for any issues caused by this script.
+
+.FUNCTIONALITY
+    - Set up global variables for Carbon Black Cloud credentials and API endpoint.
+    - Display a menu for the user to choose the action (Get CBC Uninstall code or Exit).
+    - Validate user input to ensure a valid choice is made.
+    - Prompt the user to enter the computer name.
+    - Confirm the entered computer name with the user.
+    - Construct the body of the API request with the specified computer name.
+    - Send the API request to retrieve the uninstall code and process the response.
+    - Display the retrieved uninstall code.
+
+.LINK
+    https://developer.carbonblack.com/reference/carbon-black-cloud/platform/latest/device-api/
 #>
-#Requires -Version 6.0
+
 
 Clear-Host
 $Global:OrgKey = "xxxxxxxx"
