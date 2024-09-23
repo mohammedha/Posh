@@ -1,5 +1,26 @@
 
 function Get-CBCAlerts {
+    <#
+    .SYNOPSIS
+        Retrieves alerts from Carbon Black Cloud based on a user-selected time range.
+
+    .DESCRIPTION
+        This PowerShell script interacts with the Carbon Black Cloud (CBC) API to retrieve alerts based on a user-selected time range. It displays the alerts in a grid view for easy analysis.
+
+    .EXAMPLE
+        Get-CBCAlerts
+
+        This command will retrieve alerts from the last 24 hours and display them in a grid view.
+
+    .EXAMPLE
+        Get-CBCAlerts -Range '-3d'
+
+        This command will retrieve alerts from the last 3 days and display them in a grid view.
+
+    .PARAMETER Range
+        Accepted range values are: -1d, -3d, -1w, -2w, -1m, -3m
+        #>
+        
     [CmdletBinding()]
     param (
         [parameter(HelpMessage = "Accepted range values are: -1d, -3d, -1w, -2w, -1m, -3m")]
