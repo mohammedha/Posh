@@ -111,11 +111,25 @@ function New-CBCDeviceAction {
         # Convert PSObject to JSON
         $jsonBody = $psObjBody | ConvertTo-Json
         $Response = Invoke-WebRequest -Uri $Uri -Method Post -Headers $Headers -Body $jsonBody -ContentType "application/json"
-        if ($Response.StatusCode -ne 204) {
-            Write-Error -Message $("Cannot complete action $($RequestBody.action_type) for devices $($RequestBody.device_id) for $($CurrentServer)")
+        switch ($Response.StatusCode) {
+            200 {
+                Write-Output "Request successful."
+                $Data = $Response.Content | ConvertFrom-Json
+            }
+            204 {
+                Write-Output "Device action created successfully."
+                $Data = $Response.Content | ConvertFrom-Json
+            }
+            400 {
+                Write-Error -Message "Invalid request. Please check the parameters and try again."
+            }
+            500 {
+                Write-Error -Message "Internal server error. Please try again later or contact support."
+            }
+            default {
+                Write-Error -Message "Unexpected error occurred. Status code: $($Response.StatusCode)"
+            }
         }
-
-        $Data = $Response.Content | Convertfrom-Json
     }
     end {
         $Data.results
