@@ -31,45 +31,57 @@ function New-CBCDeviceAction {
     .EXAMPLE
     New-CBCDeviceAction -DeviceID 123456789 -Action POLICY_UPDATE -PolicyID 123456789
     This will create a new device action to update the policy on the device with the ID 123456789 to the policy with the ID 123456789.
+    .EXAMPLE
+    New-CBCDeviceAction -Search Server -Action POLICY_UPDATE -PolicyID 123456789
+    This will search for device(s) with the name Server and create a new device action to update the policy on the device with the policy ID 123456789.
     .LINK
     https://developer.carbonblack.com/reference/carbon-black-cloud/platform/latest/devices-api/
     #>
-    [CmdletBinding(DefaultParameterSetName = "DEVICEID")]
+    [CmdletBinding(DefaultParameterSetName = "SEARCH")]
     param (
-        [Parameter(Mandatory = $true, Position = 0, ParameterSetName = "SEARCH")]
-        [string]$Search,
+        [Parameter(Mandatory = $true, ParameterSetName = "SEARCH")]
+        [Parameter(Mandatory = $false, ParameterSetName = "PolicyID")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SENSOR")]
+        [Parameter(Mandatory = $false, ParameterSetName = "AutoPolicy")]
+        [string]$SEARCH,
 
         [ValidateNotNullOrEmpty()]
-        [Parameter(Mandatory = $true, Position = 0, ParameterSetName = "DEVICEID")]
+        [Parameter(Mandatory = $true, ParameterSetName = "SCAN")]
+        [Parameter(Mandatory = $false, ParameterSetName = "PolicyID")]
+        [Parameter(Mandatory = $false, ParameterSetName = "AutoPolicy")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SENSOR")]
         [int[]]$DeviceID,
 
+
         [ValidateNotNullOrEmpty()]
-        [Parameter(Mandatory = $false, Position = 0, ParameterSetName = "PolicyID")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SEARCH")]        
+        [Parameter(Mandatory = $true , ParameterSetName = "PolicyID")]
         [int[]]$PolicyID,
 
         [ValidateNotNullOrEmpty()]
-
+        [Parameter(Mandatory = $true)]
         [validateset("QUARANTINE", "BYPASS", "BACKGROUND_SCAN", "UPDATE_POLICY", "UPDATE_SENSOR_VERSION", "UNINSTALL_SENSOR", "DELETE_SENSOR")]
         [string]$Action,
-        
+
         [ValidateNotNullOrEmpty()]
-        [Parameter(Mandatory = $true, Position = 0, ParameterSetName = "DEVICEID")]
-        [Parameter(Mandatory = $true, Position = 0, ParameterSetName = "SEARCH")]
+        [Parameter(Mandatory = $true, ParameterSetName = "SCAN")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SEARCH")]
         [validateset("ON", "OFF")]        
         [string]$Toggle,
 
-        [Parameter(Mandatory = $true, ParameterSetName = "SENSOR")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SEARCH")]
+        [Parameter(Mandatory = $false, ParameterSetName = "SENSOR")]
         [validateset("XP", "WINDOWS", "MAC", "AV_SIG", "OTHER", "RHEL", "UBUNTU", "SUSE", "AMAZON_LINUX", "MAC_OSX")]
         [string]$SensorType = "WINDOWS",
 
         [ValidateNotNullOrEmpty()]        
+        [Parameter(Mandatory = $false, ParameterSetName = "SEARCH")]
         [Parameter(Mandatory = $true, ParameterSetName = "SENSOR")]
         [int]$SensorVersion,
 
-
-
-        [Parameter(Mandatory = $true, ParameterSetName = "PolicyID")]
-        [switch]$AutoAssignPolicy
+        [Parameter(Mandatory = $false, ParameterSetName = "SEARCH")]
+        [Parameter(Mandatory = $true, ParameterSetName = "AutoPolicy")]
+        [bool]$AutoAssignPolicy = $true
 
     )
         
@@ -85,14 +97,15 @@ function New-CBCDeviceAction {
         }"
         # Create PSObject Body
         $psObjBody = $jsonBody |  ConvertFrom-Json
-        # build JSON Node for "DEVICEID" parameterset
+        # build JSON Node for "SCAN" parameterset
         if ($Action) { $psObjBody | Add-Member -Name "action_type" -Value $Action.ToUpper() -MemberType NoteProperty }
         if ($DeviceID) { $psObjBody | Add-Member -Name "device_id" -Value @($DeviceID) -MemberType NoteProperty }
-        if ($Search) {
-            $psObjBody | Add-Member -Name "search" -Value ([PSCustomObject]@{}) -MemberType NoteProperty
-            $psObjBody.search | Add-Member -Name "criteria" -Value ([PSCustomObject]@{}) -MemberType NoteProperty
-            $psObjBody.search | Add-Member -Name "exclusions" -Value ([PSCustomObject]@{}) -MemberType NoteProperty
-            $psObjBody.search | Add-Member -Name "query" -Value $Search -MemberType NoteProperty
+        # build JSON Node for "SEARCH" parameterset
+        if ($SEARCH) {
+            $psObjBody | Add-Member -Name "SEARCH" -Value ([PSCustomObject]@{}) -MemberType NoteProperty
+            $psObjBody.SEARCH | Add-Member -Name "criteria" -Value ([PSCustomObject]@{}) -MemberType NoteProperty
+            $psObjBody.SEARCH | Add-Member -Name "exclusions" -Value ([PSCustomObject]@{}) -MemberType NoteProperty
+            $psObjBody.SEARCH | Add-Member -Name "query" -Value $SEARCH -MemberType NoteProperty
         }
         # Build JSON 'OPTIONS' Node
         $psObjBody | Add-Member -Name "options" -Value ([PSCustomObject]@{}) -MemberType NoteProperty
@@ -107,6 +120,10 @@ function New-CBCDeviceAction {
         # build JSON Node for "POLICYID" parameterset
         if ($PolicyID) {
             $psObjBody.options | Add-Member -Name "policy_id" -Value $PolicyID -MemberType NoteProperty
+        }
+        # build JSON Node for "AUTOPOLICY" parameterset
+        if ($AutoAssignPolicy) {
+            $psObjBody.options | Add-Member -Name "auto_assign_policy" -Value $AutoAssignPolicy -MemberType NoteProperty
         }
         # Convert PSObject to JSON
         $jsonBody = $psObjBody | ConvertTo-Json
