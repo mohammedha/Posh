@@ -86,7 +86,12 @@ function New-CBCDeviceAction {
     )
         
     begin {
-        #Clear-Host
+        Clear-Host
+        $Global:OrgKey = "ORGGKEY"                                              # Add your org key here
+        $Global:APIID = "APIID"                                                 # Add your API ID here
+        $Global:APISecretKey = "APISECRETTOKEN"                                 # Add your API Secret token here
+        $Global:Hostname = "https://defense-xx.conferdeploy.net"                # Add your CBC URL here
+        $Global:Headers = @{"X-Auth-Token" = "$APISecretKey/$APIID" }
         $Global:Uri = "$Hostname/appservices/v6/orgs/$OrgKey/device_actions"
     }
         
