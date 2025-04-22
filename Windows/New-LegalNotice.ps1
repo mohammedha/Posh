@@ -58,5 +58,5 @@ function New-LegalNotice {
             
     }
 }
-New-LegalNotice -Install
+# New-LegalNotice -Install
 # New-LegalNotice -Uninstall
