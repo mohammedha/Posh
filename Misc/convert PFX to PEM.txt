@@ -1,0 +1,36 @@
+To convert a .p12 file (which often contains both a certificate and a private key) into individual .pem files and extract the private key in a way that might be suitable for ZendTo, you can use OpenSSL. First, extract the certificate and private key separately using OpenSSL's pkcs12 tool. Then, if the private key is encrypted, you can use openssl rsa to decrypt it. Finally, you can merge the certificate and decrypted private key into a single .pem file. 
+Here's a step-by-step guide:
+
+### 1. Extract Certificate and Private Key Separately: 
+##Extract the certificate.
+
+    openssl pkcs12 -in your_p12_file.p12 -clcerts -nokeys -out your_cert.pem
+# Replace your_p12_file.p12 with the actual name of your .p12 file.
+# This command will create a your_cert.pem file containing the certificate(s). 
+
+## Extract the private key:
+
+    openssl pkcs12 -in your_p12_file.p12 -nocerts -nodes -out your_key.pem
+# Replace your_p12_file.p12 with the actual name of your .p12 file.
+# This command will create a your_key.pem file containing the private key. 
+
+### 2. (Optional) Decrypt the Private Key if it's Encrypted: 
+If the private key is encrypted within the .p12 file, you'll need to decrypt it:
+
+    openssl rsa -in your_key.pem -out your_key_decrypted.pem
+# You'll be prompted for the password or passphrase to decrypt the key. Make sure you have this information.
+# This command will create a your_key_decrypted.pem file with the decrypted private key. 
+
+### 3. (Optional) Combine the Certificate and Decrypted Key (if needed): 
+If you need a single .pem file containing both the certificate and the decrypted key (which might be useful for some configurations), you can concatenate them:
+
+    cat your_cert.pem your_key_decrypted.pem > your_combined.pem
+
+ZendTo Specific Considerations:
+While the above steps will convert your .p12 to .pem and extract the key, ZendTo's encryption and decryption processes are handled on their servers.
+The process described above is more relevant if you are working with the key for other purposes or if ZendTo requires a specific format for uploaded files.
+For ZendTo, you'll typically be uploading the .pem file containing the certificate and/or the private key, and ZendTo will use its own encryption algorithms. 
+Key Points:
+Make sure you have OpenSSL installed and configured on your system. 
+Be careful to keep your private key secure.
+If you're unsure whether your key is encrypted or not, try to use it without decryption first. If it's encrypted, OpenSSL will let you know when you attempt to use it. 
