@@ -84,7 +84,7 @@ function Get-CBCAlert {
         Clear-Host
         $Global:OrgKey = "7R2ARMW7"                                              # Add your org key here
         $Global:APIID = "J3CDSJL5HB"                                             # Add your API ID here
-        $Global:APISecretKey = "9TNHDIQD1KDYG17F2SFUFQIT"                        # Add your API Secret token here
+        $Global:APISecretKey = "9TNHDIQD1KDYG17F2SFUFQITSUKXYZ"                        # Add your API Secret token here
         $Global:Hostname = "https://defense-eu.conferdeploy.net"                 # Add your CBC URL here
         $Global:Headers = @{"X-Auth-Token" = "$APISecretKey/$APIID" }
         $Global:Uri = "$Hostname/api/alerts/v7/orgs/$OrgKey/alerts/_search"
